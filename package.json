@@ -1,0 +1,14 @@
+{
+  "devDependencies": {
+    "css-loader": "^7.1.4",
+    "html-loader": "^5.1.0",
+    "html-webpack-plugin": "^5.6.6",
+    "style-loader": "^4.0.0",
+    "webpack-cli": "^7.0.2",
+    "webpack-dev-server": "^5.2.3"
+  },
+  "scripts": {
+    "dev": "webpack serve",
+    "deploy": "git checkout gh-pages && git merge main --no-edit && webpack && git add dist -f && git commit -m 'Deployment commit' && git subtree push --prefix dist origin gh-pages && git checkout main"
+  }
+}
