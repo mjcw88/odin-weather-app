@@ -63,13 +63,13 @@ export function updateDisplay(filename) {
     const currentTemp = createElement("div", "current-temp", "");
     const weatherSpan = createElement("span", "weather-icon", data.currentConditions.icon); // Placeholder
     const tempSpan = createElement("span", "", `${data.currentConditions.temp}°C`); // Needs an if statement to flip to F
-    const feelsLikeTemp = createElement("div", "", `Feels like ${data.currentConditions.feelslike}°C`);  // Needs an if statement to flip to F
+    const feelsLikeTemp = createElement("div", "", `Feels like ${data.currentConditions.feelslike}°C`); // Needs an if statement to flip to F
     const precipDiv = createElement("div", "", "");
-    const precipIcon = createElement("span", "", "R-Icon");  // Placeholder text
+    const precipIcon = createElement("span", "", "R-Icon"); // Placeholder text
     const precipProb = createElement("span", "", `${data.currentConditions.precipprob}%`);
     const windDiv = createElement("div", "", "");
-    const windIcon = createElement("span", "", "W-Icon")  // Placeholder text
-    const windProb = createElement("span", "", `${getWindDirection(parseFloat(data.currentConditions.winddir))}, ${data.currentConditions.windspeed}kph`);   // Needs an if statement to flip to mph
+    const windIcon = createElement("span", "", "W-Icon"); // Placeholder text
+    const windProb = createElement("span", "", `${getWindDirection(parseFloat(data.currentConditions.winddir))}, ${data.currentConditions.windspeed}kph`); // Needs an if statement to flip to mph
     const tempBtnContainer = createElement("div", "temp-btn-container", "");
     const celsiusBtn = createElement("button", "celsius-btn", "Celsius");
     const fahrenheitBtn = createElement("button", "fahrenheit-btn", "Fahrenheit");
@@ -103,7 +103,7 @@ export function updateDisplay(filename) {
             const iconContainer = createElement("div", "", h.icon); // Placeholder
             const tempContainer = createElement("div", "", `${h.temp}°C`);
             const precipContainer = createElement("div", "", `${h.precipprob}%`);
-            const windContainer = createElement("div", "", `${getWindDirection(parseFloat(h.winddir))}, ${h.windspeed}kph`);   // Needs an if statement to flip to mph
+            const windContainer = createElement("div", "", `${getWindDirection(parseFloat(h.winddir))}, ${h.windspeed}kph`); // Needs an if statement to flip to mph
 
             divContainer.append(timeContainer, iconContainer, tempContainer, precipContainer, windContainer );
             timeInnerContainer.appendChild(divContainer);
@@ -117,13 +117,13 @@ export function updateDisplay(filename) {
         const today = new Date(d.datetime);
         const weekday = today.toLocaleDateString('en-GB', { weekday: 'short' });
         const dayContainer = createElement("div", "", weekday);
-        const IconContainer = createElement("div", "", d.icon); // Placeholder
+        const iconContainer = createElement("div", "", d.icon); // Placeholder
         const tempContainer = createElement("div", "", "");
         const highestTemp = createElement("span", "", `${d.tempmax}°C`); // Needs an if statement to flip to F
         const lowestTemp = createElement("span", "", `${d.tempmin}°C`); // Needs an if statement to flip to F
 
         tempContainer.append(highestTemp, lowestTemp);
-        divContainer.append(dayContainer, IconContainer, tempContainer)
+        divContainer.append(dayContainer, iconContainer, tempContainer)
         daysInnerContainer.appendChild(divContainer);
     })
 
