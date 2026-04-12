@@ -1,17 +1,113 @@
+:root {
+    --maxWidth: 3000px;
+}
+
 *,
 *::before,
 *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* border: 0.0625rem solid red; */
 }
 
 body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     font-size: 1rem;
     line-height: 1.5;
+    padding: 20px;
 }
 
-.days-container > div {
+.form-container,
+form input[type='search'] {
+    width: 100%;
+}
+
+#content {
+    width: 100%;
+}
+
+.day-full-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.icon-large {
+    display: none;
+}
+
+.location-temp-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.location-temp-container > div {
+    display: flex;
+    justify-content: center;
+}
+
+.time-container,
+.days-container {
+    overflow-x: scroll;
+    margin-bottom: 20px; /* Potentially remove this */
+}
+
+.time-inner-container,
+.days-inner-container {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    gap: 1rem;
+    min-width: min-content;
+}
+
+.time-inner-container > div,
+.days-inner-container > div {
     border: 0.0625rem solid black;
     margin-bottom: 20px;
+}
+
+@media only screen and (min-width: 768px) {
+    #content {
+        max-width: var(--maxWidth);
+    }
+
+    form input[type='search'] {
+        display: flex;
+        margin: 0 auto;
+        width: clamp(calc(var(--maxWidth) / 8), 50%, calc(var(--maxWidth) / 6));
+    }
+
+    .location-temp-container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px; /* Potentially remove this */
+    }
+
+    .location-temp-container > div:nth-child(2) > div:nth-child(2) {
+        text-align: end;
+    }
+
+    .day-full-container {
+        text-align: left;
+    }
+
+    .details-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px; /* Potentially remove this */
+    }
+
+    .icon-small {
+        display: none;
+    }
+
+    .icon-large {
+        display: block;
+    }
 }
