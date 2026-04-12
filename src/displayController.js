@@ -37,7 +37,7 @@ export function updateDisplay(filename) {
     const content = document.getElementById("content");
     content.innerHTML = "";
 
-    if (!filename) {
+    if (!data) {
         const emptyContainer = createElement("div", "empty-container", "Error!");
         content.appendChild(emptyContainer);
         return;
