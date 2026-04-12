@@ -5,5 +5,5 @@ export function submitForm(form) {
     const data = Object.fromEntries(formData.entries());
     const query = data.q;
     form.q.value = "";
-    fetchData(query);
+    // fetchData(query);
 }

@@ -13,10 +13,13 @@ export async function fetchData(query) {
         const dataMetric = await responseMetric.json();
         const dataUs = await responseUs.json();
 
-        saveToStorage('celsius', dataMetric);
-        saveToStorage('fahrenheit', dataUs);
+        const filenameMetric = "celsius";
+        const filenameUs = "fahrenheit";
 
-        updateDisplay('celsius');
+        saveToStorage(filenameMetric, dataMetric);
+        saveToStorage(filenameUs, dataUs);
+
+        updateDisplay(filenameMetric);
     } catch (error) {
         console.error(error);
     }

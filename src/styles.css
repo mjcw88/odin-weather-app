@@ -1,5 +1,5 @@
 :root {
-    --maxWidth: 3000px;
+    --maxWidth: 2500px;
 }
 
 *,
@@ -20,39 +20,25 @@ body {
     padding: 20px;
 }
 
+.header-container,
 .form-container,
-form input[type='search'] {
-    width: 100%;
-}
-
+form input[type='search'],
 #content {
     width: 100%;
 }
 
-.day-full-container {
-    display: flex;
-    flex-direction: column;
+.header-container {
     text-align: center;
 }
 
-.icon-large {
-    display: none;
-}
-
-.location-temp-container {
+.current-weather-temp-container {
     display: flex;
-    flex-direction: column;
-}
-
-.location-temp-container > div {
-    display: flex;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .time-container,
 .days-container {
     overflow-x: scroll;
-    margin-bottom: 20px; /* Potentially remove this */
 }
 
 .time-inner-container,
@@ -67,47 +53,50 @@ form input[type='search'] {
 .time-inner-container > div,
 .days-inner-container > div {
     border: 0.0625rem solid black;
-    margin-bottom: 20px;
 }
 
 @media only screen and (min-width: 768px) {
+    .header-container,
+    .form-container,
     #content {
         max-width: var(--maxWidth);
     }
+    
+    #search-form {
+        display: flex;
+        justify-content: center;
+    }
 
     form input[type='search'] {
-        display: flex;
-        margin: 0 auto;
         width: clamp(calc(var(--maxWidth) / 8), 50%, calc(var(--maxWidth) / 6));
     }
 
-    .location-temp-container {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px; /* Potentially remove this */
+    .main-details-container {
+        position: relative;
     }
 
-    .location-temp-container > div:nth-child(2) > div:nth-child(2) {
-        text-align: end;
-    }
-
-    .day-full-container {
-        text-align: left;
-    }
-
-    .details-container {
+    .temp-precip-wind-container {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 20px; /* Potentially remove this */
     }
 
-    .icon-small {
-        display: none;
+    .temp-btn-container {
+        position: absolute;
+        top: 0px;
+        right: 0px;
     }
 
-    .icon-large {
-        display: block;
+    .current-weather-container {
+        display: flex;
+    }
+
+    .current-temp {
+        text-align: center;
+    }
+
+    .weather-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 }
