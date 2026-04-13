@@ -90,13 +90,14 @@ form input[type='search'],
     }
 
     .current-temp {
+        position: relative;
         text-align: center;
     }
 
-    .weather-icon {
+    /* .weather-icon {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-    }
+    } */
 }

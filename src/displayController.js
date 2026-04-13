@@ -1,14 +1,25 @@
-import { loadFromStorage } from "./storageController";
+import { loadFromStorage } from "./storageController.js";
+import { icons } from "./iconsController.js";
 
 //Helper Functions
-function createElement(element, className, textContent) {
+function createElement(element, className, textContent, isSVG = false) {
     const el = document.createElement(element);
     if (className) {
         const prop = element === "button" ? "id" : "className";
         el[prop] = className;
     }
-    if (textContent) el.textContent = textContent;
+
+    if (isSVG) {
+        el.innerHTML = textContent;
+    } else if (textContent) {
+        el.textContent = textContent;
+    }
+    
     return el;
+}
+
+function getIcon(filename) {
+    return icons.find(i => i.name === filename).svg;
 }
 
 function getWindDirection(degree) {
@@ -32,10 +43,10 @@ function parseTime(time) {
 }
 
 export function updateDisplay(filename) {
-    const data = loadFromStorage(filename);
-
     const content = document.getElementById("content");
     content.innerHTML = "";
+
+    const data = loadFromStorage(filename);
 
     if (!data) {
         const emptyContainer = createElement("div", "empty-container", "Error!");
@@ -61,14 +72,14 @@ export function updateDisplay(filename) {
     const tempPrecipWindContainer = createElement("div", "temp-precip-wind-container", "");
     const tempContainer = createElement("div", "", "");
     const currentTemp = createElement("div", "current-temp", "");
-    const weatherSpan = createElement("span", "weather-icon", data.currentConditions.icon); // Placeholder
+    const weatherSpan = createElement("span", "weather-icon", getIcon(data.currentConditions.icon), true);
     const tempSpan = createElement("span", "", `${data.currentConditions.temp}°C`); // Needs an if statement to flip to F
     const feelsLikeTemp = createElement("div", "", `Feels like ${data.currentConditions.feelslike}°C`); // Needs an if statement to flip to F
     const precipDiv = createElement("div", "", "");
-    const precipIcon = createElement("span", "", "R-Icon"); // Placeholder text
+    const precipIcon = createElement("span", "", getIcon("rain"), true);
     const precipProb = createElement("span", "", `${data.currentConditions.precipprob}%`);
     const windDiv = createElement("div", "", "");
-    const windIcon = createElement("span", "", "W-Icon"); // Placeholder text
+    const windIcon = createElement("span", "", getIcon("wind"), true);
     const windProb = createElement("span", "", `${getWindDirection(parseFloat(data.currentConditions.winddir))}, ${data.currentConditions.windspeed}kph`); // Needs an if statement to flip to mph
     const tempBtnContainer = createElement("div", "temp-btn-container", "");
     const celsiusBtn = createElement("button", "celsius-btn", "Celsius");
@@ -100,7 +111,7 @@ export function updateDisplay(filename) {
 
             const divContainer = createElement("div", "", "");
             const timeContainer = createElement("div", "", h.datetime.slice(0, 5));
-            const iconContainer = createElement("div", "", h.icon); // Placeholder
+            const iconContainer = createElement("div", "", getIcon(h.icon), true);
             const tempContainer = createElement("div", "", `${h.temp}°C`);
             const precipContainer = createElement("div", "", `${h.precipprob}%`);
             const windContainer = createElement("div", "", `${getWindDirection(parseFloat(h.winddir))}, ${h.windspeed}kph`); // Needs an if statement to flip to mph
@@ -117,7 +128,7 @@ export function updateDisplay(filename) {
         const today = new Date(d.datetime);
         const weekday = today.toLocaleDateString('en-GB', { weekday: 'short' });
         const dayContainer = createElement("div", "", weekday);
-        const iconContainer = createElement("div", "", d.icon); // Placeholder
+        const iconContainer = createElement("div", "", getIcon(d.icon), true);
         const tempContainer = createElement("div", "", "");
         const highestTemp = createElement("span", "", `${d.tempmax}°C`); // Needs an if statement to flip to F
         const lowestTemp = createElement("span", "", `${d.tempmin}°C`); // Needs an if statement to flip to F
