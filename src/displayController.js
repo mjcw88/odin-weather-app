@@ -1,5 +1,6 @@
 import { loadFromStorage } from "./storageController.js";
 import { icons } from "./iconsController.js";
+import { formatClickEvent, dayClickEvent } from "./eventsController.js";
 
 //Helper Functions
 function createElement(element, className, textContent, isSVG = false) {
@@ -7,6 +8,11 @@ function createElement(element, className, textContent, isSVG = false) {
     if (className) {
         const prop = element === "button" ? "id" : "className";
         el[prop] = className;
+    }
+
+    if (element === "button") {
+        el.dataset.format = textContent.toLowerCase();
+        formatClickEvent(el);
     }
 
     if (isSVG) {
@@ -42,8 +48,13 @@ function parseTime(time) {
     return { hour, minutes, seconds };
 }
 
-export function updateDisplay(filename) {
+export function updateDisplay(filename, weatherDay = 0) {
+    const tempFormat = filename === "celsius" ? "°C" : "°F"
+    const speedFormat = filename === "celsius" ? "kph" : "mph"
+
     const content = document.getElementById("content");
+    content.dataset.format = filename;
+    content.dataset.day = weatherDay;
     content.innerHTML = "";
 
     const data = loadFromStorage(filename);
@@ -65,30 +76,52 @@ export function updateDisplay(filename) {
     const todayFormatted = `${weekday} ${month} ${day}`;
     const dateSpan = createElement("span", "", todayFormatted);
 
-    const conditionSpan = createElement("span", "", data.currentConditions.conditions);
-    const humiditySpan = createElement("span", "", `Humidity: ${data.currentConditions.humidity}%`)
+    const conditions = weatherDay === 0 ? data.currentConditions.conditions : data.days[weatherDay].conditions;
+    const conditionSpan = createElement("span", "", conditions);
+
+    const humidity = weatherDay === 0 ? data.currentConditions.humidity : data.days[weatherDay].humidity;
+    const humiditySpan = createElement("span", "", `Humidity: ${humidity}%`)
+
     const currentWeatherContainer = createElement("div", "current-weather-container", "");
     const currentTempContainer = createElement("div", "current-weather-temp-container", "");
     const tempPrecipWindContainer = createElement("div", "temp-precip-wind-container", "");
     const tempContainer = createElement("div", "", "");
     const currentTemp = createElement("div", "current-temp", "");
-    const weatherSpan = createElement("span", "weather-icon", getIcon(data.currentConditions.icon), true);
-    const tempSpan = createElement("span", "", `${data.currentConditions.temp}°C`); // Needs an if statement to flip to F
-    const feelsLikeTemp = createElement("div", "", `Feels like ${data.currentConditions.feelslike}°C`); // Needs an if statement to flip to F
+
+    const icon = weatherDay === 0 ? data.currentConditions.icon : data.days[weatherDay].icon;
+    const weatherSpan = createElement("span", "weather-icon", getIcon(icon), true);
+
+    const temp = weatherDay === 0 ? data.currentConditions.temp : data.days[weatherDay].temp;
+    const tempSpan = createElement("span", "", `${temp}${tempFormat}`);
+
+    const feelsLike = weatherDay === 0 ? data.currentConditions.feelslike : data.days[weatherDay].feelslike;
+    const feelsLikeTemp = createElement("div", "", `Feels like ${feelsLike}${tempFormat}`);
+
     const precipDiv = createElement("div", "", "");
     const precipIcon = createElement("span", "", getIcon("rain"), true);
-    const precipProb = createElement("span", "", `${data.currentConditions.precipprob}%`);
+
+    const precipProb = weatherDay === 0 ? data.currentConditions.precipprob : data.days[weatherDay].precipprob;
+    const precipProbSpan = createElement("span", "", `${precipProb}%`);
+
     const windDiv = createElement("div", "", "");
     const windIcon = createElement("span", "", getIcon("wind"), true);
-    const windProb = createElement("span", "", `${getWindDirection(parseFloat(data.currentConditions.winddir))}, ${data.currentConditions.windspeed}kph`); // Needs an if statement to flip to mph
+
+    const windDir = weatherDay === 0 ? data.currentConditions.winddir : data.days[weatherDay].winddir;
+    const windSpeed = weatherDay === 0 ? data.currentConditions.windspeed : data.days[weatherDay].windspeed;
+    const windProbSpan = createElement("span", "", `${getWindDirection(parseFloat(windDir))}, ${windSpeed}${speedFormat}`);
+
     const tempBtnContainer = createElement("div", "temp-btn-container", "");
     const celsiusBtn = createElement("button", "celsius-btn", "Celsius");
     const fahrenheitBtn = createElement("button", "fahrenheit-btn", "Fahrenheit");
     const sunContainer = createElement("div", "sunrise-sunset-container", "");
-    const sunrise = createElement("div", "", `Sunrise: `);
-    const sunriseTime = createElement("strong", "", data.currentConditions.sunrise.slice(0, 5));
-    const sunset = createElement("div", "", `Sunset: `);
-    const sunsetTime = createElement("strong", "", data.currentConditions.sunset.slice(0, 5));
+    const sunriseDiv = createElement("div", "", `Sunrise: `);
+    const sunrise = weatherDay === 0 ? data.currentConditions.sunrise.slice(0, 5) : data.days[weatherDay].sunrise.slice(0, 5);
+    const sunriseTime = createElement("strong", "", sunrise);
+
+    const sunsetDiv = createElement("div", "", `Sunset: `);
+    const sunset = weatherDay === 0 ? data.currentConditions.sunset.slice(0, 5) : data.days[weatherDay].sunset.slice(0, 5);
+    const sunsetTime = createElement("strong", "", sunset);
+
     const timeContainer = createElement("div", "time-container", "");
     const timeInnerContainer = createElement("div", "time-inner-container", "");
     const daysContainer = createElement("div", "days-container", "");
@@ -98,40 +131,44 @@ export function updateDisplay(filename) {
     const halfPast = 30;
     let { hour: currentHour, minutes: currentMinutes } = parseTime(currentTime);
     if (currentMinutes >= halfPast) currentHour++;
-
     const TWENTY_FOUR_HOURS = 24;
-    data.days.forEach(d => {
+
+    data.days.slice(weatherDay).forEach((d) => {
         d.hours.forEach(h => {
             if (timeInnerContainer.children.length >= TWENTY_FOUR_HOURS) return;
-            const day = new Date(d.datetime);
-            if (day.valueOf() === today.valueOf()) {
-                let { hour } = parseTime(h.datetime);
-                if (currentHour > hour) return;
+            if (weatherDay === 0) {
+                const day = new Date(d.datetime);
+                if (day.valueOf() === today.valueOf()) {
+                    let { hour } = parseTime(h.datetime);
+                    if (currentHour > hour) return;
+                }
             }
 
             const divContainer = createElement("div", "", "");
             const timeContainer = createElement("div", "", h.datetime.slice(0, 5));
             const iconContainer = createElement("div", "", getIcon(h.icon), true);
-            const tempContainer = createElement("div", "", `${h.temp}°C`);
+            const tempContainer = createElement("div", "", `${h.temp}${tempFormat}`);
             const precipContainer = createElement("div", "", `${h.precipprob}%`);
-            const windContainer = createElement("div", "", `${getWindDirection(parseFloat(h.winddir))}, ${h.windspeed}kph`); // Needs an if statement to flip to mph
-
-            divContainer.append(timeContainer, iconContainer, tempContainer, precipContainer, windContainer );
+            const windContainer = createElement("div", "", `${getWindDirection(parseFloat(h.winddir))}, ${h.windspeed}${speedFormat}`);
+            divContainer.append(timeContainer, iconContainer, tempContainer, precipContainer, windContainer);
             timeInnerContainer.appendChild(divContainer);
-        })
-    })
+        });
+    });
 
     const TWO_WEEKS = 14;
-    data.days.forEach(d => {
+    data.days.forEach((d, index) => {
         if (daysInnerContainer.children.length >= TWO_WEEKS) return;
         const divContainer = createElement("div", "", "");
+        divContainer.dataset.day = index;
+        dayClickEvent(divContainer);
+
         const today = new Date(d.datetime);
         const weekday = today.toLocaleDateString('en-GB', { weekday: 'short' });
         const dayContainer = createElement("div", "", weekday);
         const iconContainer = createElement("div", "", getIcon(d.icon), true);
         const tempContainer = createElement("div", "", "");
-        const highestTemp = createElement("span", "", `${d.tempmax}°C`); // Needs an if statement to flip to F
-        const lowestTemp = createElement("span", "", `${d.tempmin}°C`); // Needs an if statement to flip to F
+        const highestTemp = createElement("span", "", `${d.tempmax}${tempFormat}`);
+        const lowestTemp = createElement("span", "", `${d.tempmin}${tempFormat}`);
 
         tempContainer.append(highestTemp, lowestTemp);
         divContainer.append(dayContainer, iconContainer, tempContainer)
@@ -141,15 +178,15 @@ export function updateDisplay(filename) {
     dateContainer.append(dateSpan, conditionSpan, humiditySpan);
     currentWeatherContainer.append(currentTempContainer, sunContainer);
     currentTempContainer.append(tempPrecipWindContainer, tempBtnContainer);
-    precipDiv.append(precipIcon, precipProb),
-    windDiv.append(windIcon, windProb);
+    precipDiv.append(precipIcon, precipProbSpan),
+    windDiv.append(windIcon, windProbSpan);
     tempPrecipWindContainer.append(tempContainer, precipDiv, windDiv);
     tempContainer.append(currentTemp, feelsLikeTemp);
     currentTemp.append(weatherSpan, tempSpan);
     tempBtnContainer.append(celsiusBtn, fahrenheitBtn);
-    sunrise.appendChild(sunriseTime);
-    sunset.appendChild(sunsetTime);
-    sunContainer.append(sunrise, sunset);
+    sunriseDiv.appendChild(sunriseTime);
+    sunsetDiv.appendChild(sunsetTime);
+    sunContainer.append(sunriseDiv, sunsetDiv);
     mainContainer.append(locationContainer, dateContainer, currentWeatherContainer);
     timeContainer.appendChild(timeInnerContainer);
     daysContainer.appendChild(daysInnerContainer);

@@ -3,6 +3,11 @@ import { saveToStorage } from "./storageController.js";
 
 export async function fetchData(query) {
     const KEY = "HRMCPGZE4BZBZDD4FC4UXNJD6";
+    const content = document.getElementById("content");
+    const loader = document.getElementById("loader");
+    
+    content.innerHTML = "";
+    loader.style.display = "block";
 
     try {
         const [responseMetric, responseUs] = await Promise.all([
@@ -19,6 +24,7 @@ export async function fetchData(query) {
         saveToStorage(filenameMetric, dataMetric);
         saveToStorage(filenameUs, dataUs);
 
+        loader.style.display = "none";
         updateDisplay(filenameMetric);
     } catch (error) {
         console.error(error);

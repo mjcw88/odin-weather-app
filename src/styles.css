@@ -55,6 +55,22 @@ form input[type='search'],
     border: 0.0625rem solid black;
 }
 
+#loader {
+    display: none;
+    width: 200px;
+    height: 200px;
+    border: 20px solid;
+    border-color: #000 transparent;
+    border-radius: 50%;
+    animation: load 1s linear infinite;
+}
+
+@keyframes load {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 @media only screen and (min-width: 768px) {
     .header-container,
     .form-container,
