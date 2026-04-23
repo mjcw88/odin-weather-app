@@ -7,4 +7,4 @@ import { updateDisplay } from "./displayController.js";
 eventListeners.init();
 
 // Placeholder whilst rendering data
-updateDisplay("celsius");
+// updateDisplay("celsius");

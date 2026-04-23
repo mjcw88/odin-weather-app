@@ -1,6 +1,31 @@
 import { updateDisplay } from "./displayController.js";
 import { saveToStorage } from "./storageController.js";
 
+function parseData(data) {
+    console.log(data);
+
+    const { resolvedAddress, currentConditions: { conditions, humidity, icon, temp, feelslike, precipprob, winddir, windspeed, sunrise, sunset } } = data;
+    const parseData = { 
+        resolvedAddress, 
+        currentConditions: { 
+            conditions, 
+            humidity, 
+            icon, 
+            temp, 
+            feelslike, 
+            precipprob, 
+            winddir, 
+            windspeed, 
+            sunrise, 
+            sunset 
+        }
+    };
+
+    console.log(parseData);
+
+    return data;
+}
+
 export async function fetchData(query) {
     const KEY = "HRMCPGZE4BZBZDD4FC4UXNJD6";
     const content = document.getElementById("content");
@@ -17,6 +42,9 @@ export async function fetchData(query) {
 
         const dataMetric = await responseMetric.json();
         const dataUs = await responseUs.json();
+
+        parseData(dataMetric);
+        parseData(dataUs);
 
         const filenameMetric = "celsius";
         const filenameUs = "fahrenheit";
