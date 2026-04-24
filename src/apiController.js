@@ -4,9 +4,10 @@ import { saveToStorage } from "./storageController.js";
 function parseData(data) {
     console.log(data);
 
-    const { resolvedAddress, currentConditions: { conditions, humidity, icon, temp, feelslike, precipprob, winddir, windspeed, sunrise, sunset } } = data;
+    const { resolvedAddress, tzoffset, currentConditions: { conditions, humidity, icon, temp, feelslike, precipprob, winddir, windspeed, sunrise, sunset } } = data;
     const parseData = { 
-        resolvedAddress, 
+        resolvedAddress,
+        tzoffset, 
         currentConditions: { 
             conditions, 
             humidity, 

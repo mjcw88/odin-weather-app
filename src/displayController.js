@@ -43,6 +43,16 @@ function getWindDirection(degree) {
     return directions.find(d => degree < d.max)?.label ?? "N";
 }
 
+function parseAndOffsetTime(time, offset) {
+    let [hour, minutes, seconds] = time.split(":").map(Number);
+
+    // Apply offset and wrap to keep hour in 0–23 range
+    // The + 24 handles negative results
+    hour = ((hour + offset) % 24 + 24) % 24;
+
+    return { hour, minutes, seconds };
+}
+
 function parseTime(time) {
     const [hour, minutes, seconds] = time.split(":").map(Number);
     return { hour, minutes, seconds };
@@ -127,21 +137,20 @@ export function updateDisplay(filename, weatherDay = 0) {
     const daysContainer = createElement("div", "days-container", "");
     const daysInnerContainer = createElement("div", "days-inner-container", "");
 
-    const currentTime = new Date().toLocaleTimeString('en-GB');
+    const currentTime = new Date().toISOString().slice(11, 19);
     const halfPast = 30;
-    let { hour: currentHour, minutes: currentMinutes } = parseTime(currentTime);
+    let { hour: currentHour, minutes: currentMinutes } = parseAndOffsetTime(currentTime, parseInt(data.tzoffset));
+
     if (currentMinutes >= halfPast) currentHour++;
     const TWENTY_FOUR_HOURS = 24;
 
     data.days.slice(weatherDay).forEach((d) => {
         d.hours.forEach(h => {
             if (timeInnerContainer.children.length >= TWENTY_FOUR_HOURS) return;
-            if (weatherDay === 0) {
-                const day = new Date(d.datetime);
-                if (day.valueOf() === today.valueOf()) {
-                    let { hour } = parseTime(h.datetime);
-                    if (currentHour > hour) return;
-                }
+
+            if (new Date(d.datetime).valueOf() === today.valueOf()) {
+                const { hour } = parseTime(h.datetime);
+                if (currentHour > hour) return;
             }
 
             const divContainer = createElement("div", "", "");
