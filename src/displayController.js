@@ -79,10 +79,10 @@ export function updateDisplay(filename, weatherDay = 0) {
     const locationContainer = createElement("div", "location-container", data.resolvedAddress);
     const dateContainer = createElement("div", "date-condition-humidity-container", "");
 
-    const today = new Date(data.days[0].datetime);
-    const weekday = today.toLocaleDateString('en-GB', { weekday: 'long' });
-    const month = today.toLocaleDateString('en-GB', { month: 'long' });
-    const day = today.getDate();
+    const date = new Date(data.days[weatherDay].datetime);
+    const weekday = date.toLocaleDateString('en-GB', { weekday: 'long' });
+    const month = date.toLocaleDateString('en-GB', { month: 'long' });
+    const day = date.getDate();
     const todayFormatted = `${weekday} ${month} ${day}`;
     const dateSpan = createElement("span", "", todayFormatted);
 
@@ -143,6 +143,8 @@ export function updateDisplay(filename, weatherDay = 0) {
 
     if (currentMinutes >= halfPast) currentHour++;
     const TWENTY_FOUR_HOURS = 24;
+
+    const today = new Date(data.days[0].datetime);
 
     data.days.slice(weatherDay).forEach((d) => {
         d.hours.forEach(h => {
