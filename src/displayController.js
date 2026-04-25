@@ -46,9 +46,10 @@ function getWindDirection(degree) {
 function parseAndOffsetTime(time, offset) {
     let [hour, minutes, seconds] = time.split(":").map(Number);
 
-    // Apply offset and wrap to keep hour in 0–23 range
-    // The + 24 handles negative results
-    hour = ((hour + offset) % 24 + 24) % 24;
+    hour += offset;
+
+    if (hour >= 24) hour -= 24;
+    else if (hour < 0) hour += 24;
 
     return { hour, minutes, seconds };
 }
