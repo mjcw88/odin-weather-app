@@ -1,3 +1,9 @@
+export const clearStorage = {
+    init() { 
+        localStorage.clear();
+    }
+}
+
 function storageAvailable(type) {
     let storage;
     try {
