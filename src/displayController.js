@@ -87,8 +87,8 @@ export function updateDisplay(filename, weatherDay = 0) {
     const todayFormatted = `${weekday} ${month} ${day}`;
     const dateSpan = createElement("span", "", todayFormatted);
 
-    const conditions = weatherDay === 0 ? data.currentConditions.conditions : data.days[weatherDay].conditions;
-    const conditionSpan = createElement("span", "", conditions);
+    const description = weatherDay === 0 ? data.currentConditions.conditions : data.days[weatherDay].description;
+    const descriptionSpan = createElement("span", "", description);
 
     const humidity = weatherDay === 0 ? data.currentConditions.humidity : data.days[weatherDay].humidity;
     const humiditySpan = createElement("span", "", `Humidity: ${humidity}%`)
@@ -187,7 +187,7 @@ export function updateDisplay(filename, weatherDay = 0) {
         daysInnerContainer.appendChild(divContainer);
     })
 
-    dateContainer.append(dateSpan, conditionSpan, humiditySpan);
+    dateContainer.append(dateSpan, descriptionSpan, humiditySpan);
     currentWeatherContainer.append(currentTempContainer, sunContainer);
     currentTempContainer.append(tempPrecipWindContainer, tempBtnContainer);
     precipDiv.append(precipIcon, precipProbSpan),

@@ -2,13 +2,11 @@ import { updateDisplay } from "./displayController.js";
 import { saveToStorage } from "./storageController.js";
 
 function parseData(data) {
-    console.log(data);
-
-    const { resolvedAddress, tzoffset, currentConditions: { conditions, humidity, icon, temp, feelslike, precipprob, winddir, windspeed, sunrise, sunset } } = data;
-    const parseData = { 
+    const { resolvedAddress, tzoffset, currentConditions: { conditions, humidity, icon, temp, feelslike, precipprob, winddir, windspeed, sunrise, sunset }, days } = data;
+    const parsedData = { 
         resolvedAddress,
         tzoffset, 
-        currentConditions: { 
+        currentConditions: {
             conditions, 
             humidity, 
             icon, 
@@ -19,12 +17,33 @@ function parseData(data) {
             windspeed, 
             sunrise, 
             sunset 
-        }
+        },
+        days: days.map(({ datetime, description, humidity, icon, temp, feelslike, precipprob, winddir, windspeed, sunrise, sunset, tempmax, tempmin, hours }) => ({ 
+            datetime,
+            description,
+            humidity,
+            icon,
+            temp,
+            feelslike,
+            precipprob,
+            winddir,
+            windspeed,
+            sunrise,
+            sunset,
+            tempmax,
+            tempmin,
+            hours: hours.map(({ datetime, temp, humidity, icon, conditions, precipprob, windspeed }) => ({
+                datetime,
+                icon,
+                temp,
+                precipprob,
+                winddir,
+                windspeed,
+            }))
+        }))
     };
 
-    console.log(parseData);
-
-    return data;
+    return parsedData;
 }
 
 export async function fetchData(query) {
@@ -44,14 +63,14 @@ export async function fetchData(query) {
         const dataMetric = await responseMetric.json();
         const dataUs = await responseUs.json();
 
-        parseData(dataMetric);
-        parseData(dataUs);
+        const parsedMetric = parseData(dataMetric);
+        const parsedUs = parseData(dataUs);
 
         const filenameMetric = "celsius";
         const filenameUs = "fahrenheit";
 
-        saveToStorage(filenameMetric, dataMetric);
-        saveToStorage(filenameUs, dataUs);
+        saveToStorage(filenameMetric, parsedMetric);
+        saveToStorage(filenameUs, parsedUs);
 
         loader.style.display = "none";
         updateDisplay(filenameMetric);
