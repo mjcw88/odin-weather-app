@@ -47,8 +47,8 @@ function parseTime(time) {
 }
 
 export function updateDisplay(filename, weatherDay = 0) {
-    const tempFormat = filename === "celsius" ? "°C" : "°F"
-    const speedFormat = filename === "celsius" ? "kph" : "mph"
+    const tempFormat = filename === "celsius" ? "°C" : "°F";
+    const speedFormat = filename === "celsius" ? "kph" : "mph";
 
     const content = document.getElementById("content");
     content.dataset.format = filename;
