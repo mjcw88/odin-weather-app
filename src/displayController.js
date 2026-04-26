@@ -29,28 +29,15 @@ function getIcon(filename) {
 }
 
 function getWindDirection(degree) {
-    const directions = [
-        { max: 22.5,  label: "N"  },
-        { max: 67.5,  label: "NE" },
-        { max: 112.5, label: "E"  },
-        { max: 157.5, label: "SE" },
-        { max: 202.5, label: "S"  },
-        { max: 247.5, label: "SW" },
-        { max: 292.5, label: "W"  },
-        { max: 337.5, label: "NW" },
-    ];
-
-    return directions.find(d => degree < d.max)?.label ?? "N";
+    const normalized = ((degree % 360) + 360) % 360;
+    const directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+    const index = Math.round(normalized / 45) % 8;
+    return directions[index];
 }
 
 function parseAndOffsetTime(time, offset) {
     let [hour, minutes, seconds] = time.split(":").map(Number);
-
-    hour += offset;
-
-    if (hour >= 24) hour -= 24;
-    else if (hour < 0) hour += 24;
-
+    hour = ((hour + offset) % 24 + 24) % 24;
     return { hour, minutes, seconds };
 }
 
