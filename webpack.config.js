@@ -38,8 +38,24 @@ export default {
       },
       {
         test: /\.svg$/i,
-        use: 'raw-loader'
-      }
+        use: [
+          "raw-loader",
+          {
+            loader: "svgo-loader",
+            options: {
+              plugins: [
+                {
+                  name: "prefixIds",
+                  params: {
+                    prefix: true,
+                    delim: "__",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
     ],
   },
 };
