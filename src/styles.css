@@ -1,5 +1,9 @@
 :root {
     --maxWidth: 2500px;
+    --greyBorder: #999999;
+    --darkGrey: #222222;
+    --blue: hsl(235, 100%, 70%);
+    --blueHover: hsl(235, 100%, 60%);
 }
 
 *,
@@ -14,10 +18,19 @@
 body {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
     align-items: center;
     font-size: 1rem;
     line-height: 1.5;
     padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
 }
 
 .header-container,
@@ -25,6 +38,51 @@ body {
 form input[type='search'],
 #content {
     width: 100%;
+}
+
+#search-form {
+    position: relative;
+}
+
+form input[type='search'] {
+    border-radius: 2rem;
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+    border: 0.125rem solid var(--greyBorder);
+    color: var(--darkGrey);
+    box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.25);
+}
+
+form input[type='search']:focus {
+    outline: none;
+    color: black;
+    border: 0.125rem solid var(--blue);
+}
+
+#search-btn {
+    --size: 1.5rem;
+
+    width: var(--size);
+    height: var(--size);
+    position: absolute;
+    top: 50%;
+    right: 0px;
+    cursor: pointer;
+
+    border: none;
+    outline: none;
+    background-color: transparent;
+
+    margin-top: -0.75rem;
+    margin-right: 1rem;
+}
+
+#search-btn svg {
+    fill: var(--blue);
+}
+
+#search-btn svg:hover {
+    fill: var(--blueHover);
 }
 
 .header-container {
@@ -65,6 +123,11 @@ form input[type='search'],
     animation: load 1s linear infinite;
 }
 
+.empty-container {
+    text-align: center;
+    font-weight: bold;
+}
+
 @keyframes load {
     100% {
         transform: rotate(360deg);
@@ -72,8 +135,7 @@ form input[type='search'],
 }
 
 @media only screen and (min-width: 768px) {
-    .header-container,
-    .form-container,
+    .header-form-container,
     #content {
         max-width: var(--maxWidth);
     }
@@ -81,9 +143,7 @@ form input[type='search'],
     #search-form {
         display: flex;
         justify-content: center;
-    }
-
-    form input[type='search'] {
+        margin: 0 auto;
         width: clamp(calc(var(--maxWidth) / 8), 50%, calc(var(--maxWidth) / 6));
     }
 
