@@ -112,6 +112,32 @@ form input[type='search']:focus {
     min-width: min-content;
 }
 
+input.invalid {
+    border: 2px solid #990000;
+    background-color: #ffdddd;
+}
+
+input:focus.invalid {
+    outline: none;
+    /* make sure keyboard-only users see a change when focusing */
+    border-style: dashed;
+}
+
+#query-error {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    text-align: center;
+    color: white;
+    background-color: #990000;
+    border-radius: 0 0 .5rem .5rem;
+    box-sizing: border-box;
+    padding: 1rem;
+    display: none;
+}
+
 .time-inner-container > div,
 .days-inner-container > div {
     border: 0.0625rem solid black;

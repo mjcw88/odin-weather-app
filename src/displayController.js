@@ -47,12 +47,7 @@ function parseTime(time) {
 }
 
 export function updateDisplay(filename, weatherDay = 0) {
-    const tempFormat = filename === "celsius" ? "°C" : "°F";
-    const speedFormat = filename === "celsius" ? "kph" : "mph";
-
     const content = document.getElementById("content");
-    content.dataset.format = filename;
-    content.dataset.day = weatherDay;
     content.innerHTML = "";
 
     const data = loadFromStorage(filename);
@@ -62,6 +57,12 @@ export function updateDisplay(filename, weatherDay = 0) {
         content.appendChild(emptyContainer);
         return;
     }
+
+    content.dataset.format = filename;
+    content.dataset.day = weatherDay;
+
+    const tempFormat = filename === "celsius" ? "°C" : "°F";
+    const speedFormat = filename === "celsius" ? "kph" : "mph";
 
     const mainContainer = createElement("div", "main-details-container", "");
     const locationContainer = createElement("div", "location-container", data.resolvedAddress);
@@ -130,10 +131,10 @@ export function updateDisplay(filename, weatherDay = 0) {
     let { hour: currentHour, minutes: currentMinutes } = parseAndOffsetTime(currentTime, parseInt(data.tzoffset));
 
     if (currentMinutes >= halfPast) currentHour++;
+
     const TWENTY_FOUR_HOURS = 24;
-
     const today = new Date(data.days[0].datetime);
-
+    
     data.days.slice(weatherDay).forEach((d) => {
         d.hours.forEach(h => {
             if (timeInnerContainer.children.length >= TWENTY_FOUR_HOURS) return;
@@ -155,6 +156,7 @@ export function updateDisplay(filename, weatherDay = 0) {
     });
 
     const TWO_WEEKS = 14;
+
     data.days.forEach((d, index) => {
         if (daysInnerContainer.children.length >= TWO_WEEKS) return;
         const divContainer = createElement("div", "", "");

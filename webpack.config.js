@@ -38,8 +38,8 @@ export default {
       },
       {
         test: /\.svg$/i,
+        type: "asset/source",  // replaces raw-loader
         use: [
-          "raw-loader",
           {
             loader: "svgo-loader",
             options: {
