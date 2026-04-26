@@ -4,6 +4,8 @@
     --darkGrey: #222222;
     --blue: hsl(235, 100%, 70%);
     --blueHover: hsl(235, 100%, 60%);
+    --slowAnimationTiming: 300ms ease-in-out;
+    --fastAnimationTiming: 150ms ease-in-out;
 }
 
 *,
@@ -51,12 +53,13 @@ form input[type='search'] {
     border: 0.125rem solid var(--greyBorder);
     color: var(--darkGrey);
     box-shadow: 0px 1px 8px 0px rgba(0, 0, 0, 0.25);
+    transition: border-color var(--fastAnimationTiming), color var(--fastAnimationTiming);
 }
 
 form input[type='search']:focus {
     outline: none;
     color: black;
-    border: 0.125rem solid var(--blue);
+    border-color: var(--blue);
 }
 
 #search-btn {
@@ -79,6 +82,7 @@ form input[type='search']:focus {
 
 #search-btn svg {
     fill: var(--blue);
+    transition: fill var(--fastAnimationTiming);
 }
 
 #search-btn svg:hover {
@@ -169,11 +173,4 @@ form input[type='search']:focus {
         position: relative;
         text-align: center;
     }
-
-    /* .weather-icon {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    } */
 }
