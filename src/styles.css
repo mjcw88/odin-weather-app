@@ -1,8 +1,14 @@
 :root {
     --maxWidth: 2500px;
     --greyBorder: #999999;
+    --lightBlack: #1E222D;
+    --grey: #5B627A;
     --darkGrey: #222222;
+    --lightGrey: #E7E9FB;
     --blue: hsl(235, 100%, 70%);
+    --red: #990000;
+    --lightRed: #ffdddd;
+    --offWhite: #F7F7FF;
     --blueHover: hsl(235, 100%, 60%);
     --slowAnimationTiming: 300ms ease-in-out;
     --fastAnimationTiming: 150ms ease-in-out;
@@ -95,7 +101,7 @@ form input[type='search']:focus {
 
 .current-weather-temp-container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column-reverse;
 }
 
 .time-container,
@@ -113,8 +119,8 @@ form input[type='search']:focus {
 }
 
 input.invalid {
-    border: 2px solid #990000;
-    background-color: #ffdddd;
+    border: 0.125rem solid var(--red);
+    background-color: var(--lightRed);
 }
 
 input:focus.invalid {
@@ -131,7 +137,7 @@ input:focus.invalid {
     width: max-content;
     text-align: center;
     color: white;
-    background-color: #990000;
+    background-color: var(--red);
     border-radius: 0 0 .5rem .5rem;
     box-sizing: border-box;
     padding: 1rem;
@@ -143,19 +149,120 @@ input:focus.invalid {
     border: 0.0625rem solid black;
 }
 
-#loader {
-    display: none;
-    width: 200px;
-    height: 200px;
-    border: 20px solid;
-    border-color: #000 transparent;
-    border-radius: 50%;
-    animation: load 1s linear infinite;
-}
-
 .empty-container {
     text-align: center;
     font-weight: bold;
+}
+
+.main-details-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.location-container {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.date-condition-humidity-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: var(--grey);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.temp-btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+#celsius-btn,
+#fahrenheit-btn {
+    cursor: pointer;
+    flex: 1;
+    font-size: 1rem;
+    width: max-content;
+    outline: none;
+    border: none;
+    color: var(--lightBlack);
+    background-color: var(--lightGrey);
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 0.75rem;
+    padding: 0.5rem;
+}
+
+#celsius-btn:hover,
+#fahrenheit-btn:hover {
+    background-color: var(--offWhite);
+}
+
+.btn-selected {
+    border: 0.125rem solid var(--blue) !important;
+    color: var(--blue) !important;
+    background-color: white !important;
+}
+
+.temp-precip-wind-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+}
+
+.weather-icon,
+.precip-icon,
+.wind-icon {
+    display: flex;
+    margin: 0 auto;
+    width: 50%;
+}
+
+.current-temp {
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.feels-like-temp,
+.precip-prob,
+.wind-dir,
+.sunrise-sunset-container > div {
+    color: var(--grey);
+    font-weight: 600;
+}
+
+.precip-prob,
+.wind-dir {
+    font-size: 2rem;
+}
+
+.sunrise-sunset-container {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.sunrise-sunset-container > div > strong {
+    color: black;
+}
+
+#loader {
+    --size: 5rem;
+
+    display: none;
+    width: var(--size);
+    height: var(--size);
+    border: 0.875rem solid;
+    border-color: var(--blueHover) var(--blue) var(--blue) var(--blue);
+    border-radius: 50%;
+    animation: load 1s linear infinite;
 }
 
 @keyframes load {

@@ -91,27 +91,29 @@ export function updateDisplay(filename, weatherDay = 0) {
     const weatherSpan = createElement("span", "weather-icon", getIcon(icon), true);
 
     const temp = weatherDay === 0 ? data.currentConditions.temp : data.days[weatherDay].temp;
-    const tempSpan = createElement("span", "", `${temp}${tempFormat}`);
+    const tempSpan = createElement("span", "current-temp", `${temp}${tempFormat}`);
 
     const feelsLike = weatherDay === 0 ? data.currentConditions.feelslike : data.days[weatherDay].feelslike;
-    const feelsLikeTemp = createElement("div", "", `Feels like ${feelsLike}${tempFormat}`);
+    const feelsLikeTemp = createElement("div", "feels-like-temp", `Feels like ${feelsLike}${tempFormat}`);
 
     const precipDiv = createElement("div", "", "");
-    const precipIcon = createElement("span", "", getIcon("rain"), true);
+    const precipIcon = createElement("span", "precip-icon", getIcon("rain"), true);
 
     const precipProb = weatherDay === 0 ? data.currentConditions.precipprob : data.days[weatherDay].precipprob;
-    const precipProbSpan = createElement("span", "", `${precipProb}%`);
+    const precipProbSpan = createElement("span", "precip-prob", `${precipProb}%`);
 
     const windDiv = createElement("div", "", "");
-    const windIcon = createElement("span", "", getIcon("wind"), true);
+    const windIcon = createElement("span", "wind-icon", getIcon("wind"), true);
 
     const windDir = weatherDay === 0 ? data.currentConditions.winddir : data.days[weatherDay].winddir;
     const windSpeed = weatherDay === 0 ? data.currentConditions.windspeed : data.days[weatherDay].windspeed;
-    const windProbSpan = createElement("span", "", `${getWindDirection(parseFloat(windDir))}, ${windSpeed}${speedFormat}`);
+    const windProbSpan = createElement("span", "wind-dir", `${getWindDirection(parseFloat(windDir))}, ${windSpeed}${speedFormat}`);
 
     const tempBtnContainer = createElement("div", "temp-btn-container", "");
     const celsiusBtn = createElement("button", "celsius-btn", "Celsius");
+    if (filename === "celsius") celsiusBtn.classList.add("btn-selected");
     const fahrenheitBtn = createElement("button", "fahrenheit-btn", "Fahrenheit");
+    if (filename === "fahrenheit") fahrenheitBtn.classList.add("btn-selected");
     const sunContainer = createElement("div", "sunrise-sunset-container", "");
     const sunriseDiv = createElement("div", "", `Sunrise: `);
     const sunrise = weatherDay === 0 ? data.currentConditions.sunrise.slice(0, 5) : data.days[weatherDay].sunrise.slice(0, 5);
