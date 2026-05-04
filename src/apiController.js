@@ -60,6 +60,13 @@ export async function fetchData(query) {
             fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${query}?key=${KEY}&unitGroup=us`)
         ]);
 
+        if (!responseMetric.ok || !responseUs.ok) {
+            const errorText = await responseMetric.ok 
+                ? responseUs.text() 
+                : responseMetric.text();
+            throw new Error(`Location not found: ${errorText}`);
+        }
+
         const dataMetric = await responseMetric.json();
         const dataUs = await responseUs.json();
 
@@ -75,6 +82,8 @@ export async function fetchData(query) {
         loader.style.display = "none";
         updateDisplay(filenameMetric);
     } catch (error) {
+        loader.style.display = "none";
+        content.innerHTML = `<p class="no-results">No results found for "${query}".</p>`;
         console.error(error);
     }
 }

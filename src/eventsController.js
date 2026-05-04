@@ -10,6 +10,14 @@ const isQueryValid = () => {
 
 const setSearchClass = (isValid) => {
     query.className = isValid ? "valid" : "invalid";
+
+    if (!isValid) {
+        const TIME_OUT = 3000;
+
+        setTimeout(() => {
+            query.removeAttribute("class");
+        }, TIME_OUT);
+    }
 };
 
 const updateSearchError = (isValid) => {
@@ -18,9 +26,17 @@ const updateSearchError = (isValid) => {
         queryError.removeAttribute("class");
         queryError.style.display = "none";
     } else {
-        queryError.textContent = "Please enter this field!";
+        const TIME_OUT = 3000;
+
+        queryError.textContent = "Please enter a location!";
         queryError.setAttribute("class", "active");
         queryError.style.display = "block";
+
+        setTimeout(() => {
+            queryError.textContent = "";
+            queryError.removeAttribute("class");
+            queryError.style.display = "none";
+        }, TIME_OUT);
     }
 };
 

@@ -125,7 +125,8 @@ input:focus.invalid {
     fill: var(--blueHover);
 }
 
-.empty-container {
+.empty-container,
+.no-results {
     text-align: center;
     font-weight: bold;
 }
@@ -133,12 +134,14 @@ input:focus.invalid {
 .main-details-container {
     display: flex;
     flex-direction: column;
+    margin-bottom: 1rem;
 }
 
 .location-container {
     text-align: center;
     font-weight: bold;
     font-size: 1.5rem;
+    color: var(--lightBlack);
 }
 
 .date-condition-humidity-container {
@@ -204,24 +207,25 @@ input:focus.invalid {
 .precip-icon,
 .wind-icon {
     display: flex;
-    width: 50%;
+    width: 25%;
 }
 
 .feels-like-temp,
 .precip-prob,
-.wind-dir,
+.wind-container,
 .sunrise-sunset-container > div {
     color: var(--grey);
     font-weight: 600;
 }
 
 .current-temp {
+    color: var(--lightBlack);
     font-weight: bold;
 }
 
 .current-temp,
 .precip-prob,
-.wind-dir {
+.wind-speed {
     font-size: 2rem;
 }
 
@@ -232,12 +236,13 @@ input:focus.invalid {
 }
 
 .sunrise-sunset-container > div > strong {
-    color: black;
+    color: var(--lightBlack);
 }
 
 .time-container,
 .days-container {
     overflow-x: scroll;
+    margin-bottom: 1rem;
 }
 
 .time-inner-container,
@@ -247,6 +252,55 @@ input:focus.invalid {
     text-align: center;
     gap: 1rem;
     min-width: min-content;
+}
+
+.hour-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-weight: bold;
+    background-color: var(--offWhite);
+    padding: 0.5rem;
+    border-radius: 0.75rem;
+    color: var(--lightBlack);
+}
+
+.hour-precip,
+.hour-wind-speed,
+.hour-wind-dir {
+    color: var(--grey);
+}
+
+.day-container {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    border-radius: 0.75rem;
+    color: var(--lightBlack); 
+}
+
+.day-selected,
+.day-container:hover {
+    background-color: var(--offWhite);   
+}
+
+.day-container:hover {
+    cursor: pointer;
+}
+
+.day-temp {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.day-high-temp {
+    color: var(--lightBlack); 
+}
+
+.day-low-temp {
+    color: var(--grey);
 }
 
 #loader {
