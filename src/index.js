@@ -6,7 +6,7 @@ import { clearStorage } from "./storageController.js";
 
 // initialisation
 eventListeners.init();
-clearStorage.init();
+// clearStorage.init();
 
 // Placeholder whilst rendering data
-// updateDisplay("celsius");
+updateDisplay("celsius");

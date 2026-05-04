@@ -41,6 +41,10 @@ body {
     width: 100%;
 }
 
+.header-container {
+    text-align: center;
+}
+
 .header-container,
 .form-container,
 form input[type='search'],
@@ -66,56 +70,6 @@ form input[type='search']:focus {
     outline: none;
     color: black;
     border-color: var(--blue);
-}
-
-#search-btn {
-    --size: 1.5rem;
-
-    width: var(--size);
-    height: var(--size);
-    position: absolute;
-    top: 50%;
-    right: 0px;
-    cursor: pointer;
-
-    border: none;
-    outline: none;
-    background-color: transparent;
-
-    margin-top: -0.75rem;
-    margin-right: 1rem;
-}
-
-#search-btn svg {
-    fill: var(--blue);
-    transition: fill var(--fastAnimationTiming);
-}
-
-#search-btn svg:hover {
-    fill: var(--blueHover);
-}
-
-.header-container {
-    text-align: center;
-}
-
-.current-weather-temp-container {
-    display: flex;
-    flex-direction: column-reverse;
-}
-
-.time-container,
-.days-container {
-    overflow-x: scroll;
-}
-
-.time-inner-container,
-.days-inner-container {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    gap: 1rem;
-    min-width: min-content;
 }
 
 input.invalid {
@@ -144,9 +98,31 @@ input:focus.invalid {
     display: none;
 }
 
-.time-inner-container > div,
-.days-inner-container > div {
-    border: 0.0625rem solid black;
+#search-btn {
+    --size: 1.5rem;
+
+    width: var(--size);
+    height: var(--size);
+    position: absolute;
+    top: 50%;
+    right: 0px;
+    cursor: pointer;
+
+    border: none;
+    outline: none;
+    background-color: transparent;
+
+    margin-top: -0.75rem;
+    margin-right: 1rem;
+}
+
+#search-btn svg {
+    fill: var(--blue);
+    transition: fill var(--fastAnimationTiming);
+}
+
+#search-btn svg:hover {
+    fill: var(--blueHover);
 }
 
 .empty-container {
@@ -210,10 +186,17 @@ input:focus.invalid {
     background-color: white !important;
 }
 
-.temp-precip-wind-container {
+.current-temp-wind-precip-container {
     display: flex;
     flex-direction: column;
     text-align: center;
+    gap: 1rem;
+}
+
+.current-temp-wind-precip-container > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     gap: 1rem;
 }
 
@@ -221,13 +204,7 @@ input:focus.invalid {
 .precip-icon,
 .wind-icon {
     display: flex;
-    margin: 0 auto;
     width: 50%;
-}
-
-.current-temp {
-    font-weight: bold;
-    font-size: 2rem;
 }
 
 .feels-like-temp,
@@ -238,6 +215,11 @@ input:focus.invalid {
     font-weight: 600;
 }
 
+.current-temp {
+    font-weight: bold;
+}
+
+.current-temp,
 .precip-prob,
 .wind-dir {
     font-size: 2rem;
@@ -251,6 +233,20 @@ input:focus.invalid {
 
 .sunrise-sunset-container > div > strong {
     color: black;
+}
+
+.time-container,
+.days-container {
+    overflow-x: scroll;
+}
+
+.time-inner-container,
+.days-inner-container {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    gap: 1rem;
+    min-width: min-content;
 }
 
 #loader {
@@ -271,7 +267,7 @@ input:focus.invalid {
     }
 }
 
-@media only screen and (min-width: 768px) {
+/* @media only screen and (min-width: 768px) {
     .header-form-container,
     #content {
         max-width: var(--maxWidth);
@@ -284,18 +280,8 @@ input:focus.invalid {
         width: clamp(calc(var(--maxWidth) / 8), 50%, calc(var(--maxWidth) / 6));
     }
 
-    .main-details-container {
-        position: relative;
-    }
-
     .temp-precip-wind-container {
         display: flex;
-    }
-
-    .temp-btn-container {
-        position: absolute;
-        top: 0px;
-        right: 0px;
     }
 
     .current-weather-container {
@@ -306,4 +292,4 @@ input:focus.invalid {
         position: relative;
         text-align: center;
     }
-}
+} */

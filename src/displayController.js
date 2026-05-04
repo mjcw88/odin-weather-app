@@ -81,33 +81,31 @@ export function updateDisplay(filename, weatherDay = 0) {
     const humidity = weatherDay === 0 ? data.currentConditions.humidity : data.days[weatherDay].humidity;
     const humiditySpan = createElement("span", "", `Humidity: ${humidity}%`)
 
-    const currentWeatherContainer = createElement("div", "current-weather-container", "");
-    const currentTempContainer = createElement("div", "current-weather-temp-container", "");
-    const tempPrecipWindContainer = createElement("div", "temp-precip-wind-container", "");
-    const tempContainer = createElement("div", "", "");
-    const currentTemp = createElement("div", "current-temp", "");
+    const currentTempWindPrecipContainer = createElement("div", "current-temp-wind-precip-container", "");
+    const currentTempContainer = createElement("div", "current-temp-container", "");
 
     const icon = weatherDay === 0 ? data.currentConditions.icon : data.days[weatherDay].icon;
-    const weatherSpan = createElement("span", "weather-icon", getIcon(icon), true);
+    const currentTempIcon = createElement("div", "weather-icon", getIcon(icon), true);
 
+    const tempContainer = createElement("div", "temp-container", "");
     const temp = weatherDay === 0 ? data.currentConditions.temp : data.days[weatherDay].temp;
-    const tempSpan = createElement("span", "current-temp", `${temp}${tempFormat}`);
+    const tempDiv = createElement("div", "current-temp", `${temp}${tempFormat}`);
 
     const feelsLike = weatherDay === 0 ? data.currentConditions.feelslike : data.days[weatherDay].feelslike;
     const feelsLikeTemp = createElement("div", "feels-like-temp", `Feels like ${feelsLike}${tempFormat}`);
 
-    const precipDiv = createElement("div", "", "");
-    const precipIcon = createElement("span", "precip-icon", getIcon("rain"), true);
+    const precipDiv = createElement("div", "precip-container", "");
+    const precipIcon = createElement("div", "precip-icon", getIcon("rain"), true);
 
     const precipProb = weatherDay === 0 ? data.currentConditions.precipprob : data.days[weatherDay].precipprob;
-    const precipProbSpan = createElement("span", "precip-prob", `${precipProb}%`);
+    const precipProbSpan = createElement("div", "precip-prob", `${precipProb}%`);
 
-    const windDiv = createElement("div", "", "");
-    const windIcon = createElement("span", "wind-icon", getIcon("wind"), true);
+    const windDiv = createElement("div", "wind-container", "");
+    const windIcon = createElement("div", "wind-icon", getIcon("wind"), true);
 
     const windDir = weatherDay === 0 ? data.currentConditions.winddir : data.days[weatherDay].winddir;
     const windSpeed = weatherDay === 0 ? data.currentConditions.windspeed : data.days[weatherDay].windspeed;
-    const windProbSpan = createElement("span", "wind-dir", `${getWindDirection(parseFloat(windDir))}, ${windSpeed}${speedFormat}`);
+    const windProbSpan = createElement("div", "wind-dir", `${getWindDirection(parseFloat(windDir))}, ${windSpeed}${speedFormat}`);
 
     const tempBtnContainer = createElement("div", "temp-btn-container", "");
     const celsiusBtn = createElement("button", "celsius-btn", "Celsius");
@@ -179,18 +177,16 @@ export function updateDisplay(filename, weatherDay = 0) {
     })
 
     dateContainer.append(dateSpan, descriptionSpan, humiditySpan);
-    currentWeatherContainer.append(currentTempContainer, sunContainer);
-    currentTempContainer.append(tempPrecipWindContainer, tempBtnContainer);
+    currentTempWindPrecipContainer.append(currentTempContainer, precipDiv, windDiv);
     precipDiv.append(precipIcon, precipProbSpan),
     windDiv.append(windIcon, windProbSpan);
-    tempPrecipWindContainer.append(tempContainer, precipDiv, windDiv);
-    tempContainer.append(currentTemp, feelsLikeTemp);
-    currentTemp.append(weatherSpan, tempSpan);
+    tempContainer.append(tempDiv, feelsLikeTemp)
+    currentTempContainer.append(currentTempIcon, tempContainer);
     tempBtnContainer.append(celsiusBtn, fahrenheitBtn);
     sunriseDiv.appendChild(sunriseTime);
     sunsetDiv.appendChild(sunsetTime);
     sunContainer.append(sunriseDiv, sunsetDiv);
-    mainContainer.append(locationContainer, dateContainer, currentWeatherContainer);
+    mainContainer.append(locationContainer, dateContainer, tempBtnContainer, currentTempWindPrecipContainer, sunContainer);
     timeContainer.appendChild(timeInnerContainer);
     daysContainer.appendChild(daysInnerContainer);
     content.append(mainContainer, timeContainer, daysContainer);
