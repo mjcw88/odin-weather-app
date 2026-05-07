@@ -1,8 +1,26 @@
 import { loadFromStorage } from "./storageController.js";
 import { icons } from "./iconsController.js";
 import { formatClickEvent, dayClickEvent } from "./eventsController.js";
+import dayTimeBg from "./images/angela-loria-ZAy8srF4rRM-unsplash.jpg";
+import nightTimeBg from "./images/nathan-anderson-L95xDkSSuWw-unsplash.jpg";
 
 //Helper Functions
+function getBackground(sunrise, sunset, offset) {
+    const now = new Date();
+    let time = new Date().toISOString().slice(11, 19);
+
+    let { hour, minutes, seconds } = parseAndOffsetTime(time, offset);
+
+    hour = String(hour).padStart(2, "0");
+    minutes = String(minutes).padStart(2, "0");
+    seconds = String(seconds).padStart(2, "0");
+
+    time = hour + ":" + minutes + ":" + seconds;
+
+    if (time >= sunrise && time <= sunset) return dayTimeBg;
+    return nightTimeBg;
+}
+
 function createElement(element, className, textContent, isSVG = false) {
     const el = document.createElement(element);
     if (className) {
@@ -36,6 +54,7 @@ function getWindDirection(degree) {
 }
 
 function parseAndOffsetTime(time, offset) {
+    offset = parseInt(offset);
     let [hour, minutes, seconds] = time.split(":").map(Number);
     hour = ((hour + offset) % 24 + 24) % 24;
     return { hour, minutes, seconds };
@@ -58,6 +77,7 @@ export function updateDisplay(filename, weatherDay = 0) {
         return;
     }
 
+    document.body.style.backgroundImage = `url(${getBackground(data.currentConditions.sunrise, data.currentConditions.sunset, data.tzoffset)})`
     content.dataset.format = filename;
     content.dataset.day = weatherDay;
 
@@ -66,6 +86,7 @@ export function updateDisplay(filename, weatherDay = 0) {
 
     const mainContainer = createElement("div", "main-details-container", "");
     const locationContainer = createElement("div", "location-container", data.resolvedAddress);
+    const dateSunContainer = createElement("div", "date-sunrise-container");
     const dateContainer = createElement("div", "date-condition-humidity-container", "");
 
     const date = new Date(data.days[weatherDay].datetime);
@@ -94,6 +115,7 @@ export function updateDisplay(filename, weatherDay = 0) {
     const feelsLike = weatherDay === 0 ? data.currentConditions.feelslike : data.days[weatherDay].feelslike;
     const feelsLikeTemp = createElement("div", "feels-like-temp", `Feels like ${feelsLike}${tempFormat}`);
 
+    const precipWindContainer = createElement("div", "precip-wind-container", "");
     const precipDiv = createElement("div", "precip-container", "");
     const precipIcon = createElement("div", "precip-icon", getIcon("rain"), true);
 
@@ -105,7 +127,7 @@ export function updateDisplay(filename, weatherDay = 0) {
 
     const windDir = weatherDay === 0 ? data.currentConditions.winddir : data.days[weatherDay].winddir;
     const windSpeed = weatherDay === 0 ? data.currentConditions.windspeed : data.days[weatherDay].windspeed;
-    const windContainer = createElement("div", "wind-container", "");
+    const windContainer = createElement("div", "wind-speed-dir-container", "");
     const windSpeedDiv = createElement("div", "wind-speed", `${windSpeed}${speedFormat}`);
     const windDirDiv = createElement("div", "wind-dir", `${getWindDirection(parseFloat(windDir))}`);
 
@@ -130,7 +152,7 @@ export function updateDisplay(filename, weatherDay = 0) {
 
     const currentTime = new Date().toISOString().slice(11, 19);
     const halfPast = 30;
-    let { hour: currentHour, minutes: currentMinutes } = parseAndOffsetTime(currentTime, parseInt(data.tzoffset));
+    let { hour: currentHour, minutes: currentMinutes } = parseAndOffsetTime(currentTime, data.tzoffset);
 
     if (currentMinutes >= halfPast) currentHour++;
 
@@ -181,8 +203,10 @@ export function updateDisplay(filename, weatherDay = 0) {
         daysInnerContainer.appendChild(divContainer);
     })
 
+    dateSunContainer.append(dateContainer, sunContainer)
     dateContainer.append(dateSpan, descriptionSpan, humiditySpan);
-    currentTempWindPrecipContainer.append(currentTempContainer, precipDiv, windDiv);
+    precipWindContainer.append(precipDiv, windDiv)
+    currentTempWindPrecipContainer.append(currentTempContainer, precipWindContainer);
     precipDiv.append(precipIcon, precipProbSpan),
     windContainer.append(windSpeedDiv, windDirDiv);
     windDiv.append(windIcon, windContainer);
@@ -192,7 +216,7 @@ export function updateDisplay(filename, weatherDay = 0) {
     sunriseDiv.appendChild(sunriseTime);
     sunsetDiv.appendChild(sunsetTime);
     sunContainer.append(sunriseDiv, sunsetDiv);
-    mainContainer.append(tempBtnContainer, locationContainer, dateContainer, sunContainer, currentTempWindPrecipContainer);
+    mainContainer.append(tempBtnContainer, locationContainer, dateSunContainer, currentTempWindPrecipContainer);
     timeContainer.appendChild(timeInnerContainer);
     daysContainer.appendChild(daysInnerContainer);
     content.append(mainContainer, timeContainer, daysContainer);

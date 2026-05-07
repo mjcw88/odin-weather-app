@@ -1,14 +1,18 @@
 :root {
     --maxWidth: 2500px;
+    --padding: 20px;
     --greyBorder: #999999;
     --lightBlack: #1E222D;
     --grey: #5B627A;
     --darkGrey: #222222;
     --lightGrey: #E7E9FB;
+    --backgroundBlue: hsl(206, 71%, 87.8%, 0.5);
     --blue: hsl(235, 100%, 70%);
     --red: #990000;
     --lightRed: #ffdddd;
     --offWhite: #F7F7FF;
+    --whiteBg:  rgba(255, 255, 255, 0.9);
+    --offWhiteBg: rgba(247, 247, 247, 0.9);
     --blueHover: hsl(235, 100%, 60%);
     --slowAnimationTiming: 300ms ease-in-out;
     --fastAnimationTiming: 150ms ease-in-out;
@@ -30,15 +34,23 @@ body {
     align-items: center;
     font-size: 1rem;
     line-height: 1.5;
-    padding: 20px;
+    padding: var(--padding);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
 }
 
 .header-form-container {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    width: 100%;
+    width: calc(100% + (var(--padding) * 2));
+    background-color: var(--backgroundBlue);
+    margin: calc(var(--padding) * -1) calc(var(--padding) * -1) 0 calc(var(--padding) * -1);
+    padding: var(--padding);
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
 }
 
 .header-container {
@@ -90,7 +102,7 @@ input:focus.invalid {
     transform: translateX(-50%);
     width: max-content;
     text-align: center;
-    color: white;
+    color: var(--offWhite);
     background-color: var(--red);
     border-radius: 0 0 .5rem .5rem;
     box-sizing: border-box;
@@ -134,31 +146,63 @@ input:focus.invalid {
 .main-details-container {
     display: flex;
     flex-direction: column;
-    margin-bottom: 1rem;
 }
 
 .location-container {
-    text-align: center;
     font-weight: bold;
     font-size: 1.5rem;
     color: var(--lightBlack);
+    width: fit-content;
+}
+
+.location-container,
+.date-sunrise-container,
+.current-temp-wind-precip-container,
+.no-results {
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.location-container,
+.date-sunrise-container,
+.current-temp-wind-precip-container,
+.hour-container,
+.day-container,
+.no-results {
+    background-color: var(--whiteBg);
+}
+
+.date-sunrise-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .date-condition-humidity-container {
     display: flex;
     flex-direction: column;
-    text-align: center;
     color: var(--grey);
     font-weight: 600;
     font-size: 1rem;
-    margin-bottom: 1rem;
 }
 
 .temp-btn-container {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 1rem;
     width: 100%;
+}
+
+.temp-btn-container,
+.location-container,
+.date-sunrise-container,
+.current-temp-wind-precip-container,
+.current-temp-container,
+.time-container,
+.days-container {
     margin-bottom: 1rem;
 }
 
@@ -196,18 +240,46 @@ input:focus.invalid {
     gap: 1rem;
 }
 
-.current-temp-wind-precip-container > div {
+.current-temp-container {
     display: flex;
     align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.precip-wind-container {
+    display: flex;
     justify-content: space-around;
-    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.precip-container,
+.wind-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.precip-icon,
+.wind-icon {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.current-temp-container > div,
+.precip-wind-container > div {
+    flex: 1;
 }
 
 .weather-icon,
 .precip-icon,
 .wind-icon {
     display: flex;
-    width: 25%;
+    justify-content: center;
 }
 
 .feels-like-temp,
@@ -221,17 +293,23 @@ input:focus.invalid {
 .current-temp {
     color: var(--lightBlack);
     font-weight: bold;
+    font-size: 3rem;
 }
 
-.current-temp,
 .precip-prob,
-.wind-speed {
+.wind-speed-dir-container {
     font-size: 2rem;
+}
+
+.wind-speed-dir-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .sunrise-sunset-container {
     text-align: center;
-    margin-bottom: 1rem;
     font-size: 1.25rem;
 }
 
@@ -242,7 +320,6 @@ input:focus.invalid {
 .time-container,
 .days-container {
     overflow-x: scroll;
-    margin-bottom: 1rem;
 }
 
 .time-inner-container,
@@ -252,14 +329,15 @@ input:focus.invalid {
     text-align: center;
     gap: 1rem;
     min-width: min-content;
+    margin-bottom: 1rem;
 }
 
 .hour-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 0.25rem;
     font-weight: bold;
-    background-color: var(--offWhite);
     padding: 0.5rem;
     border-radius: 0.75rem;
     color: var(--lightBlack);
@@ -274,16 +352,17 @@ input:focus.invalid {
 .day-container {
     display: flex;
     flex-direction: column;
-    font-weight: bold;
+    align-items: center;
     gap: 0.25rem;
+    font-weight: bold;
     padding: 0.5rem;
     border-radius: 0.75rem;
-    color: var(--lightBlack); 
+    color: var(--lightBlack);
 }
 
 .day-selected,
 .day-container:hover {
-    background-color: var(--offWhite);   
+    background-color: var(--offWhiteBg);   
 }
 
 .day-container:hover {
@@ -292,7 +371,7 @@ input:focus.invalid {
 
 .day-temp {
     display: flex;
-    gap: 0.5rem;
+    gap: 1rem;
 }
 
 .day-high-temp {
@@ -301,6 +380,24 @@ input:focus.invalid {
 
 .day-low-temp {
     color: var(--grey);
+}
+
+.precip-icon svg,
+.wind-icon svg {
+    --size: 75%;
+
+    display: block;
+    width: var(--size);
+    height: var(--size);
+}
+
+.hour-icon svg,
+.day-icon svg {
+    --size: 4rem;
+
+    display: block;
+    width: var(--size);
+    height: var(--size);
 }
 
 #loader {
@@ -313,6 +410,7 @@ input:focus.invalid {
     border-color: var(--blueHover) var(--blue) var(--blue) var(--blue);
     border-radius: 50%;
     animation: load 1s linear infinite;
+    margin: 2.5rem;
 }
 
 @keyframes load {

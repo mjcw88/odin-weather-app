@@ -32,10 +32,12 @@ function parseData(data) {
             sunset,
             tempmax,
             tempmin,
-            hours: hours.map(({ datetime, temp, humidity, icon, conditions, precipprob, windspeed }) => ({
+            hours: hours.map(({ datetime, icon, temp, humidity, conditions, precipprob, winddir, windspeed }) => ({
                 datetime,
                 icon,
                 temp,
+                humidity,
+                conditions,
                 precipprob,
                 winddir,
                 windspeed,
