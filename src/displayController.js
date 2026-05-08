@@ -90,6 +90,7 @@ export function updateDisplay(filename, weatherDay = 0) {
 
     const mainContainer = createElement("div", "main-details-container", "");
     const locationContainer = createElement("div", "location-container", data.resolvedAddress);
+    const dateSunTempContainer = createElement("div", "date-sunrise-temp-container", "");
     const dateSunContainer = createElement("div", "date-sunrise-container");
     const dateContainer = createElement("div", "date-condition-humidity-container", "");
 
@@ -135,6 +136,7 @@ export function updateDisplay(filename, weatherDay = 0) {
     const windSpeedDiv = createElement("div", "wind-speed", `${windSpeed}${speedFormat}`);
     const windDirDiv = createElement("div", "wind-dir", `${getWindDirection(parseFloat(windDir))}`);
 
+    const tempBtnLocationContainer = createElement("div", "temp-btn-location-container", "");
     const tempBtnContainer = createElement("div", "temp-btn-container", "");
     const celsiusBtn = createElement("button", "celsius-btn", "Celsius");
     if (filename === "celsius") celsiusBtn.classList.add("btn-selected");
@@ -207,9 +209,10 @@ export function updateDisplay(filename, weatherDay = 0) {
         daysInnerContainer.appendChild(divContainer);
     })
 
-    dateSunContainer.append(dateContainer, sunContainer)
+    dateSunContainer.append(dateContainer, sunContainer);
     dateContainer.append(dateSpan, descriptionSpan, humiditySpan);
-    precipWindContainer.append(precipDiv, windDiv)
+    precipWindContainer.append(precipDiv, windDiv);
+    dateSunTempContainer.append(dateSunContainer, currentTempWindPrecipContainer);
     currentTempWindPrecipContainer.append(currentTempContainer, precipWindContainer);
     precipDiv.append(precipIcon, precipProbSpan),
     windContainer.append(windSpeedDiv, windDirDiv);
@@ -220,7 +223,8 @@ export function updateDisplay(filename, weatherDay = 0) {
     sunriseDiv.appendChild(sunriseTime);
     sunsetDiv.appendChild(sunsetTime);
     sunContainer.append(sunriseDiv, sunsetDiv);
-    mainContainer.append(tempBtnContainer, locationContainer, dateSunContainer, currentTempWindPrecipContainer);
+    tempBtnLocationContainer.append(tempBtnContainer, locationContainer);
+    mainContainer.append(tempBtnLocationContainer, dateSunTempContainer);
     timeContainer.appendChild(timeInnerContainer);
     daysContainer.appendChild(daysInnerContainer);
     content.append(mainContainer, timeContainer, daysContainer);
