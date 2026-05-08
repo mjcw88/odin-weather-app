@@ -5,9 +5,9 @@ import dayTimeBg from "./images/angela-loria-ZAy8srF4rRM-unsplash.jpg";
 import nightTimeBg from "./images/nathan-anderson-L95xDkSSuWw-unsplash.jpg";
 
 //Helper Functions
-function getBackground(sunrise, sunset, offset) {
+export function getBackground(sunrise = "06:00:00", sunset = "18:00:00", offset = 0) {
     const now = new Date();
-    let time = new Date().toISOString().slice(11, 19);
+    let time = now.toISOString().slice(11, 19);
 
     let { hour, minutes, seconds } = parseAndOffsetTime(time, offset);
 
@@ -77,7 +77,11 @@ export function updateDisplay(filename, weatherDay = 0) {
         return;
     }
 
-    document.body.style.backgroundImage = `url(${getBackground(data.currentConditions.sunrise, data.currentConditions.sunset, data.tzoffset)})`
+    const sunriseFull = data.currentConditions.sunrise;
+    const sunsetFull = data.currentConditions.sunset;
+    const timeZoneOffset = data.tzoffset;
+
+    document.body.style.backgroundImage = `url(${getBackground(sunriseFull, sunsetFull, timeZoneOffset)})`
     content.dataset.format = filename;
     content.dataset.day = weatherDay;
 
@@ -152,7 +156,7 @@ export function updateDisplay(filename, weatherDay = 0) {
 
     const currentTime = new Date().toISOString().slice(11, 19);
     const halfPast = 30;
-    let { hour: currentHour, minutes: currentMinutes } = parseAndOffsetTime(currentTime, data.tzoffset);
+    let { hour: currentHour, minutes: currentMinutes } = parseAndOffsetTime(currentTime, timeZoneOffset);
 
     if (currentMinutes >= halfPast) currentHour++;
 

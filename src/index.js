@@ -3,10 +3,9 @@ import "./styles.css";
 import { eventListeners } from "./eventsController.js";
 import { updateDisplay } from "./displayController.js";
 import { clearStorage } from "./storageController.js";
+import { getBackground } from "./displayController.js";
 
 // initialisation
 eventListeners.init();
 clearStorage.init();
-
-// Placeholder whilst rendering data
-// updateDisplay("celsius");
+document.body.style.backgroundImage = `url(${getBackground()})`
