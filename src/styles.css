@@ -207,10 +207,11 @@ input:focus.invalid {
 .date-condition-humidity-container {
     display: flex;
     flex-direction: column;
-    text-wrap: wrap;
     color: var(--grey);
     font-weight: 600;
     font-size: 1rem;
+    flex: 1;
+    flex-wrap: wrap;
 }
 
 .temp-btn-container {
@@ -518,10 +519,7 @@ input:focus.invalid {
 
     .sunrise-sunset-container {
         text-align: left;
-    }
-
-    .sunrise-sunset-container {
-        text-align: left;
+        width: auto;
     }
 
     .current-temp-wind-precip-container {
