@@ -2,7 +2,7 @@ import { loadFromStorage } from "./storageController.js";
 import { icons } from "./iconsController.js";
 import { formatClickEvent, dayClickEvent } from "./eventsController.js";
 import dayTimeBg from "./images/angela-loria-ZAy8srF4rRM-unsplash.jpg";
-import nightTimeBg from "./images/nathan-anderson-L95xDkSSuWw-unsplash.jpg";
+import nightTimeBg from "./images/clement-proust-rTZZYlBvkXo-unsplash.jpg";
 
 //Helper Functions
 export function getBackground(sunrise = "06:00:00", sunset = "18:00:00", offset = 0) {
