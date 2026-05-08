@@ -9,5 +9,7 @@ Full project specs can be found [here](https://www.theodinproject.com/lessons/no
 
 * https://unsplash.com/photos/a-lone-tree-in-the-middle-of-the-night-rTZZYlBvkXo
 
+Icons sourced from the official Visual Crossing API which can be found [here](https://www.visualcrossing.com/resources/documentation/weather-api/defining-icon-set-in-the-weather-api/)
+
 ##### Live Preview
 - https://mjcw88.github.io/odin-weather-app/
