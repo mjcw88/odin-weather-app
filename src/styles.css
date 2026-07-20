@@ -309,6 +309,10 @@ input:focus.invalid {
     justify-content: center;
 }
 
+.weather-icon {
+    padding: 2rem;
+}
+
 .feels-like-temp,
 .precip-prob,
 .wind-container,
