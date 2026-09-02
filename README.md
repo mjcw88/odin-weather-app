@@ -12,4 +12,4 @@ Full project specs can be found [here](https://www.theodinproject.com/lessons/no
 Icons sourced from the official Visual Crossing API which can be found [here](https://www.visualcrossing.com/resources/documentation/weather-api/defining-icon-set-in-the-weather-api/)
 
 ##### Live Preview
-- https://mjcw88.github.io/odin-weather-app/
+- https://thriftymeerkat.github.io/odin-weather-app/
